@@ -1,0 +1,32 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate
+        run: echo "Running validation"
+
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Security Scan
+        run: echo "Running scan (independent job)"
+
+  prerequist:
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: Pre-requisite checks
+        run: echo "Running prerequist after validate"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: prerequist
+    steps:
+      - name: Deploy
+        run: echo "Deploying application"
